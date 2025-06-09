@@ -1,5 +1,22 @@
-<pre><code>```uvicorn src.main:app --reload```</code></pre>
 
+### to run without docker
+<pre><code>uvicorn src.main:app --reload</code></pre>
+
+
+### with docker
+
+## 🚀 Как запустить проект (после клонирования)
+
+1. Установи Docker и Docker Compose:
+   - [Установка Docker Desktop](https://www.docker.com/products/docker-desktop/)
+
+2. Клонируй репозиторий:
+```bash
+git clone https://github.com/alibekn6/fastapi-hw
+cd fastapi-hw
+
+docker compose up --build
+```
 
 # Backend home work 1
 
@@ -14,7 +31,7 @@
 
 ### Tasks
 
-- [ ] Create a dockerfile for your own application(FastAPI)
+- [x] Create a dockerfile for your own application(FastAPI)
 - [x] Connect your application to database(Postgresql)
 - [ ] Connect CI/CD by Github Actions
 
@@ -23,7 +40,7 @@
 ### Tasks
 
 - [x] Create JWT authentication and authorization
-- [ ] Create a docker compose file for your own application(FastAPI, Postgres)
+- [x] Create a docker compose file for your own application(FastAPI, Postgres)
 - [x] Create Secured endpoints
   - [x] `/me` - get user info
   - [x] `/create_task` - create a task
