@@ -6,10 +6,20 @@ from src.schemas.users import UserCreateSchema, UserGetSchema, UserLoginSchema
 from src.api.dependencies import SessionDep
 from src.utils.auth import hash_password, verify_password
 from src.utils.jwt import create_access_token
+from src.database import engine, Base
 from src.utils.jwt import get_current_user
 
 
 router = APIRouter()
+
+
+@router.post("/setup")
+async def setup_database():
+    async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.drop_all)
+        await conn.run_sync(Base.metadata.create_all)
+
+
 
 @router.post("/register", response_model=UserGetSchema)
 async def register(user: UserCreateSchema, session: SessionDep):
