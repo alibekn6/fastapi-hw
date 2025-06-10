@@ -13,7 +13,7 @@ CurrentUser = Depends(get_current_user)
 DBSession = Depends(get_session)
 
 
-@router.post("/", response_model=TaskGetSchema, status_code=status.HTTP_201_CREATED)
+@router.post("/users", response_model=TaskGetSchema, status_code=status.HTTP_201_CREATED)
 async def create_task(
     data: TaskCreateSchema,
     user: UserModel = CurrentUser,
