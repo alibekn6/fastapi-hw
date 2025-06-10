@@ -1,5 +1,4 @@
-from fastapi import APIRouter, HTTPException, status, Depends
-from sqlalchemy.ext.asyncio import AsyncSession
+from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy import select
 from src.models.users import UserModel
 from src.schemas.users import UserCreateSchema, UserGetSchema, UserLoginSchema
@@ -20,16 +19,17 @@ async def setup_database():
         await conn.run_sync(Base.metadata.create_all)
 
 
-
 @router.post("/register", response_model=UserGetSchema)
 async def register(user: UserCreateSchema, session: SessionDep):
-    result = await session.execute(select(UserModel).where(UserModel.username == user.username))
+    result = await session.execute(
+        select(UserModel).where(UserModel.username == user.username)
+    )
     if result.scalar_one_or_none():
         raise HTTPException(status_code=400, detail="Username already taken")
     new_user = UserModel(
-        username = user.username,
-        email = user.email,
-        hashed_password = hash_password(user.password)
+        username=user.username,
+        email=user.email,
+        hashed_password=hash_password(user.password),
     )
 
     session.add(new_user)
@@ -40,7 +40,9 @@ async def register(user: UserCreateSchema, session: SessionDep):
 
 @router.post("/login")
 async def login(user: UserLoginSchema, session: SessionDep):
-    result = await session.execute(select(UserModel).where(UserModel.username == user.username))
+    result = await session.execute(
+        select(UserModel).where(UserModel.username == user.username)
+    )
     db_user = result.scalar_one_or_none()
     if not db_user or not verify_password(user.password, db_user.hashed_password):
         raise HTTPException(status_code=400, detail="Incorrect username or password")
