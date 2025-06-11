@@ -9,8 +9,7 @@ from src.database import engine, Base
 from src.utils.jwt import get_current_user
 
 
-router = APIRouter()
-
+router = APIRouter(prefix="/auth", tags=["Tasks"])
 
 @router.post("/setup")
 async def setup_database():
